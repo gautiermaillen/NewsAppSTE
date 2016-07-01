@@ -6,11 +6,13 @@ import { Coms } from './templateComponent/coms';
 
 @Injectable()
 export class NewsService {
-    private serverUrl = 'http://10.10.12.196:8080';
+    private serverUrl = 'https://adneom-server.herokuapp.com';
+    error: any;
+    
     constructor(private http: Http) {}
     
     getNews(): Promise<News[]> {
-    return this.http.get(this.serverUrl)
+    return this.http.get(this.serverUrl + "/news")
         .toPromise()
         .then(function(response) {
             return response.json()})
@@ -18,51 +20,53 @@ export class NewsService {
     }
     
    save(news: News): Promise<News>  {
-       return this.post(news);
+       return this.put(news);
     }
 
-   private post(news: News): Promise<News> {
-   let headers = new Headers({
-     'Content-Type': 'application/json'});
+   private put(news: News): Promise<News> {
+        console.log(news);
+       let headers = new Headers({
+         'Content-Type': 'application/json',
+       'Access-Control-Allow-Methods': 'PUT'});
 
-   return this.http
-              .post(this.serverUrl, JSON.stringify(news), {headers: headers})
-              .toPromise()
-              .then(res => res.json())
-              .catch(this.handleError);
+       return this.http
+                  .put(this.serverUrl + "/news", JSON.stringify(news), {headers: headers})
+                  .toPromise()
+                  .then(res => res.json())
+                  .catch(this.handleError);
     }
 
     // Coms 
 
    saveComs(coms: Coms): Promise<Coms>  {
         console.log("ajout réussi");
-        return this.postComs(coms);
+        return this.putComs(coms);
    }
 
-   private postComs(coms: Coms): Promise<Coms> {
+   private putComs(coms: Coms): Promise<Coms> {
    let headers = new Headers({
      'Content-Type': 'application/json'});
 
    return this.http
-              .post(this.serverUrl, JSON.stringify(coms), {headers: headers})
+              .put(this.serverUrl + "/comments/" + coms.id, JSON.stringify(coms), {headers: headers})
               .toPromise()
               .then(res => res.json())
               .catch(this.handleError);
     }
+    
+    vote(news, id): Promise<News> {
+        console.log("news : ", news);
+        news.votes++;
+        var path = this.serverUrl + "/news/vote/" + id;
+        let headers = new Headers({
+            'Content-Type': '*'});
+        return this.http
+                .put(path, {headers: headers})
+                .toPromise()
+                .then(res => res.json())
+                .catch(this.handleError);
+    }
 
-//    
-//    private put(news: News) {
-//    let headers = new Headers();
-//    headers.append('Content-Type', 'application/json');
-//
-//    let url = `${this.serverUrl}/${news.id}`;
-//
-//    return this.http
-//               .put(url, JSON.stringify(news), {headers: headers})
-//               .toPromise()
-//               .then(() => news)
-//               .catch(this.handleError);
-//  }
     
     private handleError(error: any) {
         console.error('An error occurred', error);

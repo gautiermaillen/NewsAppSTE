@@ -14,10 +14,10 @@ require('rxjs/add/operator/toPromise');
 var NewsService = (function () {
     function NewsService(http) {
         this.http = http;
-        this.serverUrl = 'http://10.10.12.196:8080';
+        this.serverUrl = 'https://adneom-server.herokuapp.com';
     }
     NewsService.prototype.getNews = function () {
-        return this.http.get(this.serverUrl)
+        return this.http.get(this.serverUrl + "/news")
             .toPromise()
             .then(function (response) {
             return response.json();
@@ -25,13 +25,15 @@ var NewsService = (function () {
             .catch(this.handleError);
     };
     NewsService.prototype.save = function (news) {
-        return this.post(news);
+        return this.put(news);
     };
-    NewsService.prototype.post = function (news) {
+    NewsService.prototype.put = function (news) {
+        console.log(news);
         var headers = new http_1.Headers({
-            'Content-Type': 'application/json' });
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Methods': 'PUT' });
         return this.http
-            .post(this.serverUrl, JSON.stringify(news), { headers: headers })
+            .put(this.serverUrl + "/news", JSON.stringify(news), { headers: headers })
             .toPromise()
             .then(function (res) { return res.json(); })
             .catch(this.handleError);
@@ -39,30 +41,29 @@ var NewsService = (function () {
     // Coms 
     NewsService.prototype.saveComs = function (coms) {
         console.log("ajout réussi");
-        return this.postComs(coms);
+        return this.putComs(coms);
     };
-    NewsService.prototype.postComs = function (coms) {
+    NewsService.prototype.putComs = function (coms) {
         var headers = new http_1.Headers({
             'Content-Type': 'application/json' });
         return this.http
-            .post(this.serverUrl, JSON.stringify(coms), { headers: headers })
+            .put(this.serverUrl + "/comments/" + coms.id, JSON.stringify(coms), { headers: headers })
             .toPromise()
             .then(function (res) { return res.json(); })
             .catch(this.handleError);
     };
-    //    
-    //    private put(news: News) {
-    //    let headers = new Headers();
-    //    headers.append('Content-Type', 'application/json');
-    //
-    //    let url = `${this.serverUrl}/${news.id}`;
-    //
-    //    return this.http
-    //               .put(url, JSON.stringify(news), {headers: headers})
-    //               .toPromise()
-    //               .then(() => news)
-    //               .catch(this.handleError);
-    //  }
+    NewsService.prototype.vote = function (news, id) {
+        console.log("news : ", news);
+        news.votes++;
+        var path = this.serverUrl + "/news/vote/" + id;
+        var headers = new http_1.Headers({
+            'Content-Type': '*' });
+        return this.http
+            .put(path, { headers: headers })
+            .toPromise()
+            .then(function (res) { return res.json(); })
+            .catch(this.handleError);
+    };
     NewsService.prototype.handleError = function (error) {
         console.error('An error occurred', error);
         return Promise.reject(error.message || error);

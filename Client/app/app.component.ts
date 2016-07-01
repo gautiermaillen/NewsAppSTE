@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     
     onSelect(news: News) { this.selectedNews = news; }
     
-    upVote(vote,id){
+    upVote(vote,id, news){
         for(var i = 0; i < this.lesnews.length; i++){
             if(this.lesnews[i]["id"] == id && localStorage.getItem(id) != "hello"){
                 this.lesnews[i]["votes"] = vote += 1;
@@ -42,6 +42,10 @@ export class AppComponent implements OnInit {
                 localStorage.setItem(id,"hello");
             }
         }
+        this.newsService
+            .vote(news, id)
+            .then(x => console.log("a voté"))
+            .catch(error => this.error = error);
     }
     
     lesnewsTriees() {
@@ -55,7 +59,7 @@ export class AppComponent implements OnInit {
 
     onShow(newsprop)
     {
-        var leBoutonTexte = document.getElementsByClassName("commentaires")[newsprop.id-1].getElementsByTagName('button')[0];
+        var leBoutonTexte = document.getElementsByClassName("commentaires")[this.lesnews.indexOf(newsprop)].getElementsByTagName('button')[0];
         if(newsprop.showComs)
         {
             newsprop.showComs = false;

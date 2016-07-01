@@ -25,7 +25,8 @@ var AppComponent = (function () {
             .catch(function (error) { return _this.error = error; });
     };
     AppComponent.prototype.onSelect = function (news) { this.selectedNews = news; };
-    AppComponent.prototype.upVote = function (vote, id) {
+    AppComponent.prototype.upVote = function (vote, id, news) {
+        var _this = this;
         for (var i = 0; i < this.lesnews.length; i++) {
             if (this.lesnews[i]["id"] == id && localStorage.getItem(id) != "hello") {
                 this.lesnews[i]["votes"] = vote += 1;
@@ -33,6 +34,10 @@ var AppComponent = (function () {
                 localStorage.setItem(id, "hello");
             }
         }
+        this.newsService
+            .vote(news, id)
+            .then(function (x) { return console.log("a voté"); })
+            .catch(function (error) { return _this.error = error; });
     };
     AppComponent.prototype.lesnewsTriees = function () {
         return this.lesnews.sort(function (a, b) { return b.votes - a.votes; });
@@ -41,7 +46,7 @@ var AppComponent = (function () {
         this.getNews();
     };
     AppComponent.prototype.onShow = function (newsprop) {
-        var leBoutonTexte = document.getElementsByClassName("commentaires")[newsprop.id - 1].getElementsByTagName('button')[0];
+        var leBoutonTexte = document.getElementsByClassName("commentaires")[this.lesnews.indexOf(newsprop)].getElementsByTagName('button')[0];
         if (newsprop.showComs) {
             newsprop.showComs = false;
             leBoutonTexte.textContent = "Afficher les commentaires.";
