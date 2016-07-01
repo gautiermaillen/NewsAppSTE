@@ -1,11 +1,10 @@
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
 
-console.log("coucou");
+News = {
 
-
-// insert dans la db 
-function insertNew(objNew){
+// insert dans la db un article
+InsertNew : function(objNew){
    mongoose.connect('mongodb://localhost/AdneomNew');
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
@@ -15,10 +14,9 @@ function insertNew(objNew){
             console.log("ok");
         });
     });
-}  
-// affiche tout
-function afficherAllNews(res){
-    console.log("ok");
+},  
+//affiche tous les articles 
+AfficheAllNews : function(res){
     mongoose.connect('mongodb://localhost/AdneomNew');
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
@@ -31,61 +29,55 @@ function afficherAllNews(res){
         });
     });
 
-}  
+},
 
-function afficherNew(new_id){
+// efface un article
+RemoveNew :function(new_id){
     //Récupérer l'id
     var MongoObjectID = require("mongodb").ObjectID;
     var idToFind      = new_id;
     var objToFind     = { _id: new MongoObjectID(idToFind) };
 
-    mongodb.connect("http://localhost/AdneomNew", function(error, db) {
-        if (error) return funcCallback(error);
-
-            //Afficher la new
-            db.collection("news").find(objToFind).toArray(function(err, results){
+    mongoose.connect('mongodb://localhost/AdneomNew');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+        db.collection("articles").remove(objToFind,null, function (error, results) {
             if (error) throw error;
-
-            return results;
-
-            //Close connection
-            db.close();
-        });
-    });         
-}
-
-/*function updateNew(new_id,titre,lien){
-
-    //Récupérer l'id
-    var MongoObjectID = require("mongodb").ObjectID;
-    var idToFind      = new_id;
-    var objToFind     = { _id: new MongoObjectID(idToFind) };
-
-    mongodb.connect("mongodb://localhost/AdneomNew", function(error, db) {
-       
-    });
-}*/
-
-function removeNew(new_id){
-
-    //Récupérer l'id
-    var MongoObjectID = require("mongodb").ObjectID;
-    var idToFind      = new_id;
-    var objToFind     = { _id: new MongoObjectID(idToFind) };
-
-    mongodb.connect("mongodb://localhost/AdneomNew", function(error, db) {
-        if (error) return funcCallback(error);
-
-        db.collection("news").remove(objToFind, null, function(error, result) {
-            if (error) throw error;   
-
-            //Close connection
             db.close();
         });
     });
+
+},
+// ajoute un commentaire 
+AjoutComment : function(id,coment){
+    //Récupérer l'id
+    var MongoObjectID = require("mongodb").ObjectID;
+    mongoose.connect('mongodb://localhost/AdneomNew');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+        db.collection("articles").update({'_id':MongoObjectID(id)},{$push:{commentaires:coment}});
+        db.close();
+    });
+},
+
+
+//ajout Vote
+ajoutVote : function(id){
+    //Récupérer l'id
+    var MongoObjectID = require("mongodb").ObjectID;
+     mongoose.connect('mongodb://localhost/AdneomNew');
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+        db.collection("articles").update({'_id':MongoObjectID(id)},{$inc:{votes:+1}});
+        db.close();
+    });
+},
+
 }
 
-//insertNew(objNew);
 
-//afficherNew(new_id);
-//removeNew(new_id);
+
+module.exports = News;
