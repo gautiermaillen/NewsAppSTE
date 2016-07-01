@@ -1,0 +1,35 @@
+<addArticles [(lesnews)]="lesnews"></addArticles>
+
+<section id="news">
+      <div class="container">
+        <h2>Les news</h2>
+        <div class="lesNews">
+            <div class="news" *ngFor="let newsprop of lesnews">
+              <div class="headline" [class.selected]="newsprop === selectedNews" [class.vote]="newsprop.dejavote" (click)="onSelect(newsprop)">
+                <div class="badge"><p>News <span>{{newsprop.id}}</span></p></div>
+                  <div (click)="upVote(newsprop.votes,newsprop.id)">
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                    <p>{{newsprop.votes}} votes</p>
+                  </div>
+                </div>
+                <div class="titreNews">
+                  <a href="{{newsprop.lien}}">
+                    <h3>{{newsprop.titre}}<i class="fa fa-external-link" aria-hidden="true"></i></h3>
+                  </a>
+                </div>
+                <div class="commentaires">
+                  <button name="affichCom" (click)="onShow(newsprop)">Afficher les commentaires</button>
+                  <div class="listCom" *ngIf="newsprop.showComs">
+                    <ul>
+                      <li *ngFor="let newscom of newsprop.commentaires">
+                        {{newscom.texte}}
+                      </li>
+                    </ul>
+                    <!-- <addComs [(lescoms)]="lescoms" [(newsprop)]="newsprop"></addComs> -->
+                    <addComs [(lescoms)]="lescoms" [(id)]="newsprop.id"></addComs>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+</section>
