@@ -1,0 +1,13 @@
+{
+  "name": "adneom",
+  "version": "1.0",
+  "description": "Un package json pour l'exercice Adneom",
+  "main": "package_nodejs",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cors": "^2.7.1",
+    "express": "^4.14.0",
+    "mongodb": "^2.1.18",
+    "mongoose": "^4.5.3"
+  }
+}
