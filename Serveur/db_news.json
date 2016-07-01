@@ -1,0 +1,8 @@
+{ "id" : "1", "votes": 4, "lien": 'http://www.lefigaro.fr/flash-actu/2016/06/29/97001-20160629FILWWW00113-brexit-l-ecosse-determinee-a-rester-dans-l-ue.php', "titre": "Brexit", commentaires: [{id: 11 , idNews: 1 , texte: "Perfide Albion" }] },
+{ "id" : "2", "votes": 7,
+    "lien": 'http://www.belgianfootball.be/fr/selection-des-diables-rouges' , "titre": "Allez les Belges", commentaires: [{id: 12, idNews: 2, texte: "Trop bien le match <3"}] },
+{ "id" : "3", "votes": 13,
+    "lien": '#', "titre": "Alizée en concert", commentaires: []},
+{ "id" : "4", "votes": 6,
+    "lien": '#', "titre": "Fusion de cerveaux au STE", commentaires: [] }, {"id" : "5", "votes": 24,
+    "lien": '#', "titre": "Spoils GOT pour Denis", commentaires: [] }   
