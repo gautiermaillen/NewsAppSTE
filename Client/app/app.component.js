@@ -16,7 +16,6 @@ var addComs_component_1 = require('./templateComponent/addComs.component');
 var AppComponent = (function () {
     function AppComponent(newsService) {
         this.newsService = newsService;
-        this.showComs = false;
     }
     AppComponent.prototype.getNews = function () {
         var _this = this;
@@ -49,7 +48,7 @@ var AppComponent = (function () {
         }
         else {
             newsprop.showComs = true;
-            leBoutonTexte = "Cacher les commentaires.";
+            leBoutonTexte.textContent = "Cacher les commentaires.";
         }
     };
     AppComponent = __decorate([

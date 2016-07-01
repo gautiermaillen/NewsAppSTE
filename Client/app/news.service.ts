@@ -35,8 +35,8 @@ export class NewsService {
     // Coms 
 
    saveComs(coms: Coms): Promise<Coms>  {
-       return this.postComs(coms);
-       console.log("ajout réussi");
+        console.log("ajout réussi");
+        return this.postComs(coms);
    }
 
    private postComs(coms: Coms): Promise<Coms> {

@@ -21,15 +21,12 @@ var addComs = (function () {
         if (texte != undefined) {
             var dernierID = this.lescoms[this.lescoms.length - 1].id;
             var c = new coms_1.Coms(this.lescoms);
-            var ajout = n.ajoutComs(parseInt(dernierID) + 1, texte, idNews);
+            var ajout = c.ajoutComs(dernierID + 1, texte, idNews);
             var dernierObjet = ajout[ajout.length - 1];
-            save();
-            {
-                this.newsService
-                    .saveComs(dernierObjet)
-                    .then(function () { console.log("ajout réussi"); })
-                    .catch(function (error) { return _this.error = error; });
-            }
+            this.newsService
+                .saveComs(dernierObjet)
+                .then(function () { console.log("ajout réussi"); })
+                .catch(function (error) { return _this.error = error; });
         }
     };
     __decorate([

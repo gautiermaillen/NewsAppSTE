@@ -15,6 +15,7 @@ import {NewsService} from '../news.service';
 export class addComs { 
     @Input() lescoms:Coms[];
     @Input() id : any;
+    error: any;
     constructor(
         private newsService: NewsService){}
 
@@ -23,16 +24,14 @@ export class addComs {
         if(texte != undefined){
             var dernierID = this.lescoms[this.lescoms.length-1].id;
             var c = new Coms(this.lescoms);
-            var ajout = n.ajoutComs(parseInt(dernierID)+1, texte, idNews);
+            var ajout = c.ajoutComs(dernierID+1, texte, idNews);
 
             var dernierObjet = ajout[ajout.length-1];
             
-            save() {
-                this.newsService
-                    .saveComs(dernierObjet)
-                    .then(function() {console.log("ajout réussi");})
-                    .catch(error => this.error = error);
-            }
+            this.newsService
+                .saveComs(dernierObjet)
+                .then(function() {console.log("ajout réussi");})
+                .catch(error => this.error = error);
         }
     }
 }

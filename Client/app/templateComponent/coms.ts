@@ -1,15 +1,15 @@
 export class Coms{ // News class
     private lescoms;
     
-    id: string;
+    id: number;
     idNews: string;
-    texte: string;
+    texte: number;
     
   constructor(tableau:Object){
     console.log("construit");
         this.lescoms = tableau;
     }
-    ajoutCom(id: string, idNews: string, texte: string)
+    ajoutComs(id: number, idNews: number, texte: string)
     {
         this.lescoms.push({id: id, idNews:idNews, texte:texte});
         return this.lescoms;

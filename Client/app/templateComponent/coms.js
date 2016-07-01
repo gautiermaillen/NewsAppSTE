@@ -4,7 +4,7 @@ var Coms = (function () {
         console.log("construit");
         this.lescoms = tableau;
     }
-    Coms.prototype.ajoutCom = function (id, idNews, texte) {
+    Coms.prototype.ajoutComs = function (id, idNews, texte) {
         this.lescoms.push({ id: id, idNews: idNews, texte: texte });
         return this.lescoms;
     };

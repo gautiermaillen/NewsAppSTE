@@ -38,8 +38,8 @@ var NewsService = (function () {
     };
     // Coms 
     NewsService.prototype.saveComs = function (coms) {
-        return this.postComs(coms);
         console.log("ajout réussi");
+        return this.postComs(coms);
     };
     NewsService.prototype.postComs = function (coms) {
         var headers = new http_1.Headers({

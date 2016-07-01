@@ -23,23 +23,22 @@ import {NewsService} from '../news.service';
 
 export class addArticle { 
     @Input() lesnews:News[];
+    error: any;
     constructor(
         private newsService: NewsService){}
     ajoutArticle(titre,url){
             if(titre != undefined && url != undefined){
                     var dernierID = this.lesnews[this.lesnews.length-1].id;
                     var n = new News(this.lesnews);
-                    var ajout = n.ajoutNews(parseInt(dernierID)+1,url,titre, 0);
+                var ajout = n.ajoutNews(parseInt(dernierID)+1,url,titre, 0, []);
                     console.log(ajout[ajout.length-1]);
 
                     var dernierObjet = ajout[ajout.length-1];
                     
-                    save() {
-                        this.newsService
-                            .save(dernierObjet)
-                            .then(function() {console.log("ajout réussi");})
-                            .catch(error => this.error = error);
-                      }
+                    this.newsService
+                        .save(dernierObjet)
+                        .then(function() {console.log("ajout réussi");})
+                        .catch(error => this.error = error);
 
             }
         }

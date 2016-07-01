@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
     lesnews: News[];
     lescoms: Coms[];
     selectedNews: News;
-    showComs: false;
     error: any;
     
     constructor(
@@ -65,7 +64,7 @@ export class AppComponent implements OnInit {
         else
         {
             newsprop.showComs = true;
-            leBoutonTexte = "Cacher les commentaires.";
+            leBoutonTexte.textContent = "Cacher les commentaires.";
         }
     }
 }

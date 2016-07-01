@@ -21,16 +21,13 @@ var addArticle = (function () {
         if (titre != undefined && url != undefined) {
             var dernierID = this.lesnews[this.lesnews.length - 1].id;
             var n = new news_1.News(this.lesnews);
-            var ajout = n.ajoutNews(parseInt(dernierID) + 1, url, titre, 0);
+            var ajout = n.ajoutNews(parseInt(dernierID) + 1, url, titre, 0, []);
             console.log(ajout[ajout.length - 1]);
             var dernierObjet = ajout[ajout.length - 1];
-            save();
-            {
-                this.newsService
-                    .save(dernierObjet)
-                    .then(function () { console.log("ajout réussi"); })
-                    .catch(function (error) { return _this.error = error; });
-            }
+            this.newsService
+                .save(dernierObjet)
+                .then(function () { console.log("ajout réussi"); })
+                .catch(function (error) { return _this.error = error; });
         }
     };
     __decorate([
